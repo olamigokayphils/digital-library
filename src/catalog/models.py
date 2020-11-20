@@ -16,7 +16,7 @@ class Book(models.Model):
 
     def __str__(self):
         """This represents the Model Object"""
-        return self.title
+        return f"{self.title} ({self.author})"
 
     def get_absolute_url(self):
         """This returns a URL to access a book."""
