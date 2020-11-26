@@ -1,5 +1,17 @@
 {% extends 'base.html' %} {% block content %}
-<p>Welcome to Digital Library</p>
-<p>We have {{ num_books }} book</p>
+<section class="intro-text">
+  <p>Welcome to Digital Library</p>
+  <p>All Books: <strong>{{ num_books }}</strong></p>
+</section>
+
+<section class="top-reads">
+  {% for book in books %}
+  <div class="book">
+    <img class="book-image" src="{{ book.image }}" />
+    <h3 class="book-title">{{ book.title }}</h3>
+    <h3 class="book-ratings">Ratings: ⭐⭐⭐⭐</h3>
+  </div>
+  {% endfor %}
+</section>
 
 {% endblock %}

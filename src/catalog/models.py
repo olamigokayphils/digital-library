@@ -12,6 +12,7 @@ class Book(models.Model):
     isbn = models.CharField('ISBN', max_length=13, unique=True, help_text="13 Characters that Identifies a book")
     genre = models.ManyToManyField('Genre', help_text="Select a genre for this book")
     language = models.ManyToManyField('Language', help_text="Select a language for this book")
+    image = models.URLField(null=True)
 
 
     def __str__(self):

@@ -8,6 +8,17 @@
     <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
   </head>
   <body>
+    <nav>
+      <ul class="nav__directory">
+        <li>Digi-Library</li>
+        <li>Catalog</li>
+        <li>Authors</li>
+      </ul>
+      <ul class="nav__authentication">
+        <li>Login</li>
+        <li>Sign Up</li>
+      </ul>
+    </nav>
     {% block content %} {% endblock %}
   </body>
 </html>
