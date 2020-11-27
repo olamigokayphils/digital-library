@@ -6,11 +6,13 @@
 
 <section class="top-reads">
   {% for book in books %}
-  <div class="book">
-    <img class="book-image" src="{{ book.image }}" />
-    <h3 class="book-title">{{ book.title }}</h3>
-    <h3 class="book-ratings">Ratings: ⭐⭐⭐⭐</h3>
-  </div>
+  <a href="{{ book.get_absolute_url }}">
+    <div class="book">
+      <img class="book-image" src="{{ book.image }}" />
+      <h3 class="book-title">{{ book.title }}</h3>
+      <h3 class="book-ratings">Ratings: ⭐⭐⭐⭐</h3>
+    </div>
+  </a>
   {% endfor %}
 </section>
 

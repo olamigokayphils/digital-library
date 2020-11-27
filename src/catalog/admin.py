@@ -37,7 +37,7 @@ class BookAdmin(admin.ModelAdmin):
 @admin.register(Author)
 class AuthorAdmin(admin.ModelAdmin):
     list_display = ("first_name", "last_name", "date_of_birth", "date_of_death")
-    fields = ["first_name", "last_name", ("date_of_birth", "date_of_death")]
+    fields = ["first_name", "last_name", "image", "bio", ("date_of_birth", "date_of_death")]
     search_fields = ["last_name"]
 
     inlines = [BookInline]

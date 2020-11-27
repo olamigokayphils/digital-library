@@ -48,6 +48,8 @@ class Author(models.Model):
     """Model respresenting an Author"""
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
+    image = models.URLField(null=True)
+    bio = models.TextField(null=True)
     email = models.EmailField(null=True, blank=True)
     date_of_birth = models.DateField(null=True, blank=True)
     date_of_death = models.DateField('Died', null=True, blank=True)
@@ -56,7 +58,7 @@ class Author(models.Model):
         ordering = ['first_name', 'last_name']
 
     def get_absolute_url(self):
-        return reverse('author-detail', args=[str(self.id)])
+        return reverse('author-detail', args=[str(self.id), f"{self.first_name.lower()}-{self.last_name.lower()}"])
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"

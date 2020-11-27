@@ -1,0 +1,23 @@
+{% extends 'base.html' %} {% block content %}
+<div class="author-detail-container">
+  <img class="author-detail--image" alt="{{ author }}" src="{{ author.image }}" />
+  <div class="author-detail--info">
+    <h2>{{ author }}</h2>
+    <p>{{ author.date_of_birth }} - {% if author.date_of_death %} {{ author.date_of_death }} {% endif %}</p>
+    <div class="author-detail--bio">{{ author.bio }}</div>
+    <hr />
+    <br />
+    <p>Books</p>
+    {% for book in books %}
+    <div class="author-books">
+      <img src="{{ book.image }}" class="author-book--image" />
+      <div>
+        <h3>{{ book.title }}</h3>
+        <h4>⭐⭐⭐⭐</h4>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock %}
