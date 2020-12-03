@@ -12,7 +12,7 @@
     <div class="author-books">
       <img src="{{ book.image }}" class="author-book--image" />
       <div>
-        <h3>{{ book.title }}</h3>
+        <a href="{{ book.get_absolute_url }}"><h3>{{ book.title }}</h3></a>
         <h4>⭐⭐⭐⭐</h4>
       </div>
     </div>
