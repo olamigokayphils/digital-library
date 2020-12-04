@@ -16,4 +16,28 @@
   {% endfor %}
 </section>
 
+{% if not request.user.is_authenticated %}
+<div id="regModal" class="modal">
+  <div class="modal-body">
+    <button class="close">Close</button>
+    <p>
+      Hello there! <br />
+      You've visted this website {{ num_visits }} times. Signup today for better experience.
+    </p>
+  </div>
+</div>
+{% endif %} {% endblock %}
+
+<!---->
+{% block script %}
+<script>
+  const modal = document.querySelector("#regModal");
+  const modalCloseButton = document.querySelector(".close");
+
+  // When the user clicks the close button
+  modalCloseButton.addEventListener("click", function () {
+    modal.style.display = "none";
+  });
+</script>
+
 {% endblock %}

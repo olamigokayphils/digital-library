@@ -195,3 +195,113 @@ nav > ul {
   width: 80px;
   object-fit: contain;
 }
+
+/** MODAL **/
+.modal {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 1;
+  left: 0;
+  top: 0;
+  overflow: auto;
+}
+
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  width: 600px;
+  max-width: 90%;
+  overflow: hidden;
+  max-height: 80%;
+  border: 1px solid gray;
+  margin: 15% auto;
+  background-color: #f2f2f2;
+  animation: animatemodal 1s ease-in-out;
+  animation-fill-mode: forwards;
+}
+
+@keyframes animatemodal {
+  from {
+    height: 0;
+  }
+  to {
+    height: 400px;
+  }
+}
+
+.close {
+  padding: 10px;
+  border: 1px solid grey;
+  font-size: 16px;
+  align-self: flex-end;
+  background-color: wheat;
+}
+
+/** AUTHENTICATION CONTAINER **/
+
+.auth-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 40px auto 0 auto;
+  width: 300px;
+  background-color: #f2f2f2;
+  border-radius: 5px;
+}
+
+.form-group {
+  margin: 20px 10px 10px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.form-input {
+  box-sizing: border-box;
+  height: 40px;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid gray;
+  border-radius: 5px;
+}
+
+.btn {
+  padding: 10px 20px;
+  width: 100%;
+  background-color: rgb(23, 23, 255);
+  border-radius: 5px;
+  border: none;
+  color: white;
+  font-weight: bold;
+  font-size: 15px;
+  margin-bottom: 10px;
+}
+
+.form-error {
+  padding: 10px;
+  background-color: indianred;
+  color: white;
+  font-weight: bold;
+  border-radius: 5px;
+  width: 90%;
+  align-self: center;
+  margin-top: 5px;
+}
+
+.forgot-password,
+.login-link {
+  font-size: large;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+  color: darkblue;
+}
+
+.login-link {
+  margin-top: 10px;
+}

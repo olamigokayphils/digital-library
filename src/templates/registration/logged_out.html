@@ -1,0 +1,8 @@
+{% extends 'base.html' %} {% block content %}
+
+<div class="auth-container">
+  <h3 style="text-align: center">Logout</h3>
+  <span class="form-error">You are now Logged out</span>
+  <p><a class="login-link" href="{% url 'login' %}">Click here to login again</a></p>
+</div>
+{% endblock %}
