@@ -2,10 +2,11 @@
 
 <div class="author-list-container">
   <h1>Authors ({{ numbers_of_authors }})</h1>
-  <div class="search-bar">
-    <input type="text" placeholder="Enter Author name" />
-    <button>search</button>
-  </div>
+  <form method="POST" action="" class="search-bar">
+    {% csrf_token %}
+    <input required type="text" name="author" placeholder="Enter Author name" value="{{ search_item }}" />
+    <button type="submit">search</button>
+  </form>
 
   <div class="author-list">
     <ul>

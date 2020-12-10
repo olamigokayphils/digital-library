@@ -1,7 +1,12 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404,redirect
+from django.urls import reverse_lazy
 from catalog.models import Book, BookInstance, Author
 from django.views import generic
 from django.http import Http404
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib import messages
+from django.db.models import Q
+
 
 def index(request):
     """Veiw function for the Index page"""
@@ -23,6 +28,37 @@ def index(request):
             "num_visits": num_visits
         }
     )
+
+
+def signup(request):
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            # SAVE USER DETAILS
+            form.save()
+            # SEND SUCCESS MESSAGE TO TEMPLATE
+            messages.success(request, "Login to complete signup")
+            return redirect(reverse_lazy("login"))
+
+        else:
+            return render(
+                request,
+                "registration/signup.html",
+                {
+                    'form': form,
+                }
+            )
+    else:
+        form = UserCreationForm()
+        return render(
+            request,
+            "registration/signup.html",
+            {
+                'form': form
+            }
+        )
+
+
 
 
 # class BookDetailView(generic.DetailView):
@@ -49,16 +85,36 @@ def book_detail_view(request, pk):
 
 
 def author_list_view(request):
-    authors = Author.objects.all().order_by("first_name")
+    if request.method == "POST":
+        search_input = request.POST.get("author", "Empty").lower()
+        
+        # Get Matching Authors
+        authors = Author.objects.filter(Q(
+            first_name__icontains=search_input
+            ) | Q(last_name__icontains=search_input))
 
-    return render(
-        request,
-        "catalog/authors_list.html",
-        context={
-            "authors": authors,
-            "numbers_of_authors": authors.count()
-        }
-    )
+        return render(
+            request,
+            "catalog/authors_list.html",
+            context = {
+                "authors": authors,
+                "numbers_of_authors": authors.count(),
+                "search_item": search_input
+            }
+        )
+
+
+    else:
+        authors = Author.objects.all().order_by("first_name")
+
+        return render(
+            request,
+            "catalog/authors_list.html",
+            context={
+                "authors": authors,
+                "numbers_of_authors": authors.count()
+            }
+        )
 
 def author_detail_view(request, pk, slug):
     author = get_object_or_404(Author, pk=pk)
