@@ -6,6 +6,12 @@
     <title>Digital Library</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+    <link
+      rel="stylesheet"
+      href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+      integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
+      crossorigin="anonymous"
+    />
   </head>
   <body>
     <nav>
@@ -16,6 +22,9 @@
       </ul>
       <ul class="nav__authentication">
         {% if request.user.is_authenticated %}
+        <li>
+          <a href="{% url 'user-profile' %}"><i class="fas fa-user"></i></a>
+        </li>
         <li><a href="{% url 'logout' %}">Logout</a></li>
         {% else %}
         <li><a href="{% url 'login' %}">Login</a></li>

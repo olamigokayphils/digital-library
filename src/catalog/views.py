@@ -1,11 +1,13 @@
 from django.shortcuts import render, get_object_or_404,redirect
 from django.urls import reverse_lazy
-from catalog.models import Book, BookInstance, Author
+from catalog.models import Book, BookInstance, Author, RentedBook
 from django.views import generic
 from django.http import Http404
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.db.models import Q
+from django.contrib.auth.decorators import login_required
+
 
 
 def index(request):
@@ -58,6 +60,18 @@ def signup(request):
             }
         )
 
+@login_required
+def user_profile(request):
+    user_rented_books = RentedBook.objects.filter(user=request.user)
+    return render(
+        request,
+        "profile.html",
+        context={
+            "user": request.user,
+            "rented_books": user_rented_books
+        }
+
+    )
 
 
 
@@ -128,3 +142,11 @@ def author_detail_view(request, pk, slug):
             "books": books
         }
     )
+
+
+@login_required
+def rent_book(request, pk):
+    user = request.user
+    RentedBook().user_rentbook(user=user, book_id=pk)
+
+    return redirect(reverse_lazy("user-profile"))

@@ -10,7 +10,7 @@
     <p class="book-detail--description">{{ book.summary }}</p>
     <div class="book-detail--action">
       {% if copies >= 1 %}
-      <button>Rent Book</button>
+      <a href="{% url 'rent-book' book.pk %}">Rent Book</a>
       {% else %}
       <button disabled>Book Unavailable</button>
       {% endif %}

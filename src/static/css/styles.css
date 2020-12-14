@@ -327,3 +327,8 @@ nav > ul {
 .login-link {
   margin-top: 10px;
 }
+
+/** USER PROFILE */
+.user-profile-container {
+  padding: 50px;
+}

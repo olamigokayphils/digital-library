@@ -1,6 +1,9 @@
 from django.db import models
 from django.urls import reverse # ==>  'reverse' is used to generate URLs by returning a url pattern that matches that instance
 import uuid # ==> for generating  unique IDs
+from django.contrib.auth.models import User
+from .errors import BookDoesNotExist, BookNotAvailable
+from django.utils import timezone
 
 # Create your models here.
 class Book(models.Model):
@@ -43,6 +46,60 @@ class BookInstance(models.Model):
     def __str__(self):
         return f"{self.id} ({self.book.title})"
 
+
+class RentedBook(models.Model):
+    """
+    Model representation for rented books
+    """
+    RENT_BOOK_STATUS = (
+        ('ru', 'Running'),
+        ('re', 'Returned')
+    )
+
+    user = models.ForeignKey(User, on_delete=models.PROTECT)
+    book_instance = models.ForeignKey(BookInstance, on_delete=models.PROTECT)
+    status = models.CharField(max_length=2, choices=RENT_BOOK_STATUS)
+
+    @classmethod
+    def user_rentbook(cls, user, book_id):
+        """
+        This method calls updates a Book_instance model. From (Rent --> Return)
+        """
+        
+        try:
+            # GET BOOK
+            book = Book.objects.get(id=book_id)
+            
+            # CHECK FOR AVAILBLE BOOK INSTANCES
+            available_book_instances = BookInstance.objects.filter(book=book, status="a").order_by("-pk")
+
+            if available_book_instances.count() > 0:
+                # Available
+                # Select the First
+                book_instance = available_book_instances[0]
+                
+                # Update Book Instance to Loan
+                book_instance.status = "o"
+                # Due Back in a week (==> 7 days)
+                book_instance.due_back = timezone.now() + timezone.timedelta(days=7)
+                book_instance.save(update_fields=[
+                    "status",
+                    "due_back"
+                ])
+
+                # Create rented book
+                rented_book =  cls.objects.create(status="ru", user=user, book_instance=book_instance)
+
+                return rented_book
+
+            else:
+                raise BookNotAvailable(book_title=book.title, book_id=book_id)
+
+        except Book.DoesNotExist:
+            raise BookDoesNotExist(book_id=book_id)
+
+    def __str__(self):
+        return f"{self.book_instance}"
 
 class Author(models.Model):
     """Model respresenting an Author"""

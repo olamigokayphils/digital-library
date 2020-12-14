@@ -1,0 +1,16 @@
+{% extends 'base.html' %} {% block content %}
+<div class="user-profile-container">
+  <p>User: <b>{{ user.username }}</b></p>
+  <hr />
+
+  <div>
+    <h3>Rented Books</h3>
+
+    {% for book in rented_books %}
+    <p>{{ book }}</p>
+    {% empty %}
+    <p>You haven't rent a book yet. View our catalog to rent a book</p>
+    {% endfor %}
+  </div>
+  {% endblock %}
+</div>
