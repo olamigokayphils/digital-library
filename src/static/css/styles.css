@@ -8,7 +8,7 @@
 
 html,
 body {
-  overflow: hidden;
+  overflow-x: hidden;
   font-family: "Nunito", sans-serif;
 }
 
@@ -20,6 +20,10 @@ a:hover {
 
 p {
   font-size: 20px;
+}
+
+.text-small {
+  font-size: 16px;
 }
 
 nav {
@@ -281,6 +285,9 @@ nav > ul {
   border-radius: 5px;
 }
 
+button:disabled {
+  background-color: rgba(23, 23, 255, 0.5);
+}
 .btn {
   padding: 10px 20px;
   width: 100%;
@@ -291,6 +298,11 @@ nav > ul {
   font-weight: bold;
   font-size: 15px;
   margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.btn-sm {
+  width: unset;
 }
 
 .form-error {
@@ -302,6 +314,8 @@ nav > ul {
   width: 90%;
   align-self: center;
   margin-top: 5px;
+  display: flex;
+  margin-bottom: 10px;
 }
 
 .form-success {
@@ -313,6 +327,8 @@ nav > ul {
   width: 90%;
   align-self: center;
   margin-top: 5px;
+  display: flex;
+  margin-bottom: 10px;
 }
 
 .forgot-password,
@@ -331,4 +347,35 @@ nav > ul {
 /** USER PROFILE */
 .user-profile-container {
   padding: 50px;
+}
+
+.rented-book {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 2em;
+  margin-bottom: 20px;
+}
+
+.rented-book--image {
+  width: 100px;
+  height: 150px;
+}
+
+.rented-book--status-container {
+  margin: 10px 0;
+}
+
+.rented-book--status--ru {
+  padding: 5px 8px;
+  background-color: antiquewhite;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.rented-book--status--re {
+  padding: 5px 8px;
+  border-radius: 5px;
+  font-weight: bold;
+  background-color: peru;
 }

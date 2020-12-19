@@ -16,3 +16,10 @@ class BookNotAvailable(Error):
 
     def __str__(self):
         return f"Book not available: {self.book_title} - {self.book_id}"
+
+class UserRentalRecordConflictError(Error):
+    def __init__(self, book_instance):
+        self.book_instance = book_instance
+
+    def __str__(self):
+        return f"User rental record conflicts with returning user. Book Instance: {self.book_instance}"

@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import index, book_detail_view
 from .views import author_list_view, author_detail_view
-from .views import rent_book
+from .views import rent_book, return_book
 
 #catalog
 #catlog/books/
@@ -14,5 +14,7 @@ urlpatterns = [
     path('authors', author_list_view, name="author-list"),
     path('author/<int:pk>/<slug:slug>', author_detail_view, name="author-detail"),
 
-    path('rent-book/<int:pk>', rent_book, name="rent-book")
+    path('rent-book/<int:pk>', rent_book, name="rent-book"),
+    path('return-book/<slug:book_instance>', return_book, name="return-book")
+
 ]

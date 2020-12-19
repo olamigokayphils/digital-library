@@ -62,7 +62,7 @@ def signup(request):
 
 @login_required
 def user_profile(request):
-    user_rented_books = RentedBook.objects.filter(user=request.user)
+    user_rented_books = RentedBook.objects.filter(user=request.user).order_by("-pk")
     return render(
         request,
         "profile.html",
@@ -147,6 +147,34 @@ def author_detail_view(request, pk, slug):
 @login_required
 def rent_book(request, pk):
     user = request.user
+    book_in_view = get_object_or_404(Book, pk=pk)
+    existing_record = RentedBook.objects.filter(book=book_in_view)
+    
+    if existing_record.count() > 0:
+        messages.error(
+            request,
+            f"Book [{book_in_view}] cannot be rented twice."
+        )
+        return redirect(reverse_lazy("user-profile"))
+
     RentedBook().user_rentbook(user=user, book_id=pk)
+
+    return redirect(reverse_lazy("user-profile"))
+
+@login_required
+def return_book(request, book_instance):
+    user = request.user
+
+    rented_book = RentedBook.objects.filter(book_instance=book_instance)
+    if rented_book.count() < 1:
+        raise Http404("Rented Book cannot be found")
+    
+    rented_book = rented_book.last()
+    rented_book.user_return_book(user=user)
+
+    messages.success(
+        request,
+        f"Book [{rented_book.book_instance.book}] returned successfully"
+    )
 
     return redirect(reverse_lazy("user-profile"))

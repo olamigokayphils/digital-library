@@ -3,7 +3,9 @@ from django.urls import reverse # ==>  'reverse' is used to generate URLs by ret
 import uuid # ==> for generating  unique IDs
 from django.contrib.auth.models import User
 from .errors import BookDoesNotExist, BookNotAvailable
+from .errors import UserRentalRecordConflictError
 from django.utils import timezone
+import json
 
 # Create your models here.
 class Book(models.Model):
@@ -57,6 +59,7 @@ class RentedBook(models.Model):
     )
 
     user = models.ForeignKey(User, on_delete=models.PROTECT)
+    book = models.ForeignKey(Book, on_delete=models.PROTECT, null=True)
     book_instance = models.ForeignKey(BookInstance, on_delete=models.PROTECT)
     status = models.CharField(max_length=2, choices=RENT_BOOK_STATUS)
 
@@ -88,7 +91,7 @@ class RentedBook(models.Model):
                 ])
 
                 # Create rented book
-                rented_book =  cls.objects.create(status="ru", user=user, book_instance=book_instance)
+                rented_book =  cls.objects.create(status="ru", user=user, book=book, book_instance=book_instance)
 
                 return rented_book
 
@@ -97,6 +100,30 @@ class RentedBook(models.Model):
 
         except Book.DoesNotExist:
             raise BookDoesNotExist(book_id=book_id)
+
+    
+    def user_return_book(self, user):
+        if user != self.user:
+            raise UserRentalRecordConflictError(book_instance=self.book_instance)
+
+        else:
+            # If Rented Book status is Running
+            if self.status == "ru":
+                # GET & UPDATE BOOK INSTANCE
+                instance = BookInstance.objects.get(id=self.book_instance.id)
+                # update 
+                instance.status = "a" # Available
+                instance.save(update_fields=["status"])
+
+                # UPDATE USER RENTED BOOK PROFILE
+                self.status = "re" # RETURNED
+                self.save(update_fields=["status"])
+
+            # GENERICALLY RETURN SUCCESS (If no error is encountered)
+            return json.loads('{"status": "success"}')
+
+
+
 
     def __str__(self):
         return f"{self.book_instance}"
